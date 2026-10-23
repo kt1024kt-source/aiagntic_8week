@@ -1,0 +1,8 @@
+# Python & Intermediate scratch files
+*.py
+*.csv
+*.json
+*.txt
+*.html_view
+*.htmlview.html
+.system_generated/

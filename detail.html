@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>과정 상세 정보 | 2026 부산대학교 교직원 직무연수</title>
+  <meta name="description" content="2026년도 부산대학교 교직원 직무연수 과정별 세부 커리큘럼, 학습목표, 일정 및 수강신청 안내">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23004B97'/><path d='M8 9h16v4h-6v10h-4V13H8V9z' fill='white'/></svg>">
+
+  <!-- Typography: Pretendard -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+  <!-- External Libraries: PapaParse & Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. Global Header
+       ========================================================================= -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="부산대학교 직무연수원 홈으로 이동">
+        <img src="assets/logo.svg" alt="부산대학교 직무연수원" class="brand-logo-img">
+        <span class="brand-badge">2026 연수</span>
+      </a>
+
+      <div class="header-actions">
+        <div class="sync-status" title="구글 스프레드시트와 실시간 연동 중입니다.">
+          <span class="pulse-dot"></span>
+          <span>실시간 동기화</span>
+        </div>
+        <button type="button" id="refresh-btn" class="refresh-btn" title="데이터 새로고침" aria-label="데이터 새로고침">
+          <i data-lucide="refresh-cw"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       2. Navigation Bar (Breadcrumb & Back Button)
+       ========================================================================= -->
+  <div class="detail-nav-bar">
+    <div class="container detail-nav-inner">
+      <nav class="breadcrumb" aria-label="브레드크럼 위치 안내">
+        <a href="index.html">홈</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="index.html">2026 직무연수</a>
+        <span class="breadcrumb-separator">/</span>
+        <span id="breadcrumb-category" style="color:var(--text-muted);">-</span>
+        <span class="breadcrumb-separator">/</span>
+        <span id="breadcrumb-current" class="breadcrumb-current">연수 상세</span>
+      </nav>
+
+      <button type="button" id="back-btn" class="back-btn">
+        <i data-lucide="arrow-left" style="width: 15px; height: 15px;"></i>
+        <span>전체 목록으로</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       3. Loading Skeleton State
+       ========================================================================= -->
+  <div id="detail-loading" class="container" style="padding: 48px 24px;">
+    <div class="skeleton-shimmer" style="height: 180px; border-radius: var(--radius-lg); margin-bottom: 32px;"></div>
+    <div style="display: grid; grid-template-columns: 1fr 360px; gap: 32px;">
+      <div class="skeleton-shimmer" style="height: 480px; border-radius: var(--radius-lg);"></div>
+      <div class="skeleton-shimmer" style="height: 400px; border-radius: var(--radius-lg);"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       4. Not Found / Error State
+       ========================================================================= -->
+  <div id="not-found-state" class="container state-container" style="display: none; margin-top: 64px;">
+    <i data-lucide="help-circle" class="state-icon" style="color: var(--accent-amber);"></i>
+    <h2 class="state-title">연수 과정을 찾을 수 없습니다</h2>
+    <p id="not-found-desc" class="state-desc">요청하신 과정코드가 유효하지 않거나 삭제된 연수입니다.</p>
+    <a href="index.html" class="primary-btn">
+      <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+      <span>전체 연수 목록으로 이동</span>
+    </a>
+  </div>
+
+  <!-- =========================================================================
+       5. Main Detail Content
+       ========================================================================= -->
+  <div id="detail-content" style="display: none;">
+    <!-- Detail Hero -->
+    <section class="detail-hero">
+      <div class="container detail-hero-inner">
+        <div class="detail-badge-row">
+          <span id="badge-code" class="detail-code-badge">PNU-2026-000</span>
+          <span id="badge-requirement" class="badge">필수</span>
+          <span id="badge-method" class="badge">온라인</span>
+          <span id="badge-category" class="badge" style="background: rgba(255,255,255,0.2); color:#FFFFFF;">분야</span>
+        </div>
+        <h1 id="detail-title" class="detail-title">연수 과정명</h1>
+        <p id="detail-one-line" class="detail-one-line">연수 한줄 소개 문구</p>
+      </div>
+    </section>
+
+    <!-- Detail 2-Column Section -->
+    <main class="container detail-section">
+      <div class="detail-layout">
+        
+        <!-- Left Main Column -->
+        <div class="detail-main-col">
+          <!-- 1. 상세 소개 -->
+          <article class="content-block">
+            <h2 class="block-title">
+              <i data-lucide="book-open"></i>
+              <span>과정 개요 및 상세 소개</span>
+            </h2>
+            <div id="detail-desc" class="desc-text">
+              상세 소개 내용이 들어갑니다.
+            </div>
+          </article>
+
+          <!-- 2. 학습 목표 -->
+          <article class="content-block">
+            <h2 class="block-title">
+              <i data-lucide="target"></i>
+              <span>핵심 학습 목표</span>
+            </h2>
+            <div id="objective-list" class="objective-list">
+              <!-- Rendered via detail.js -->
+            </div>
+          </article>
+
+          <!-- 3. 주요 커리큘럼 -->
+          <article class="content-block">
+            <h2 class="block-title">
+              <i data-lucide="list-ordered"></i>
+              <span>주요 커리큘럼 및 모듈</span>
+            </h2>
+            <div id="curriculum-list" class="curriculum-list">
+              <!-- Rendered via detail.js -->
+            </div>
+          </article>
+
+          <!-- 4. 수강 안내 & 유의사항 -->
+          <article class="content-block">
+            <h2 class="block-title">
+              <i data-lucide="info"></i>
+              <span>이수 기준 및 수강 안내</span>
+            </h2>
+            <div class="desc-text" style="font-size: 0.9375rem; color: var(--text-body);">
+              <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+                <li><strong>이수 기준:</strong> 진도율 80% 이상 충족 시 직무연수 이수증이 자동 발급됩니다.</li>
+                <li><strong>법정의무교육:</strong> 당해 연도(2026.12.31까지) 내 미이수 시 관련 규정에 따라 재안내됩니다.</li>
+                <li><strong>집합 교육:</strong> 교육 시작 10분 전까지 지정된 강의실에 입실을 완료해주시기 바랍니다.</li>
+                <li><strong>취소 안내:</strong> 교육일 기준 3일 전까지 취소 가능하며, 무단 불참 시 향후 수강에 제한이 있을 수 있습니다.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <!-- Right Sticky Sidebar -->
+        <aside class="detail-sidebar">
+          <div class="sidebar-card">
+            <!-- Apply CTA Button -->
+            <a id="apply-btn" href="#" class="apply-btn" target="_blank" rel="noopener noreferrer">
+              <span>수강신청 바로가기</span>
+              <i data-lucide="external-link"></i>
+            </a>
+
+            <!-- Metadata Table -->
+            <table class="sidebar-table">
+              <tbody>
+                <tr>
+                  <th>수강대상</th>
+                  <td id="table-target">-</td>
+                </tr>
+                <tr>
+                  <th>교육시간</th>
+                  <td id="table-hours">-</td>
+                </tr>
+                <tr>
+                  <th>모집정원</th>
+                  <td id="table-capacity">-</td>
+                </tr>
+                <tr>
+                  <th>교육기간</th>
+                  <td id="table-period">-</td>
+                </tr>
+                <tr>
+                  <th>신청기간</th>
+                  <td id="table-apply-period">-</td>
+                </tr>
+                <tr>
+                  <th>담당부서</th>
+                  <td id="table-dept">-</td>
+                </tr>
+                <tr>
+                  <th>문의처</th>
+                  <td id="table-inquiry">-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Secondary Actions -->
+          <div class="sidebar-sub-card">
+            <span style="font-size:0.8125rem; color:var(--text-muted); font-weight:500;">동료 교직원에게 공유</span>
+            <button type="button" id="copy-url-btn" class="copy-url-btn">
+              <i data-lucide="share-2" style="width: 14px; height: 14px;"></i>
+              <span>링크 복사</span>
+            </button>
+          </div>
+        </aside>
+
+      </div>
+    </main>
+
+    <!-- Related Courses Section -->
+    <section id="related-section" class="related-section" style="display: none;">
+      <div class="container">
+        <div class="related-title-wrap">
+          <div class="related-tag">연계 추천 교육</div>
+          <h3 class="related-heading">
+            <span id="related-category-name">분야</span> 분야의 다른 연수 과정
+          </h3>
+        </div>
+        <div id="related-grid" class="course-grid">
+          <!-- Rendered via detail.js -->
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Toast Notice -->
+  <div id="toast-notice" class="toast-notice" role="alert">
+    <i data-lucide="check" style="width: 16px; height: 16px; color: #10B981;"></i>
+    <span id="toast-text">알림 내용</span>
+  </div>
+
+  <!-- =========================================================================
+       6. Footer
+       ========================================================================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h4>부산대학교 교직원 직무연수 포털</h4>
+          <p>배움과 혁신을 통해 국립대학의 새로운 미래를 선도하는 부산대학교 교직원 역량 개발 지원 플랫폼입니다.</p>
+        </div>
+        <div class="footer-info">
+          <div><strong>주관 부서:</strong> 부산대학교 인재개발원</div>
+          <div><strong>대표 문의:</strong> 051-510-1231 | hrd@pusan.ac.kr</div>
+          <div><strong>주소:</strong> 부산광역시 금정구 부산대학로63번길 2 (장전동)</div>
+          <div><strong>데이터 연동:</strong> Google Spreadsheet GViz 실시간 API 연동</div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Pusan National University. All rights reserved.</div>
+        <div>개인정보처리방침 · 직무연수 운영규정</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/detail.js"></script>
+</body>
+</html>
