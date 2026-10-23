@@ -216,12 +216,23 @@ C:\Antigravity\Site development\2026-10-23\
 | 단계 | 작업 내용 | 검증 및 확인 기준 | 상태 |
 |:---:|:---|:---|:---:|
 | **1단계** | 구글 시트 공유 URL, 사이트 제목/문구, 필터 기준 분석 | 32개 전체 행 파싱 확인, 17개 컬럼 매핑 완료, `&headers=1` 파라미터 적용 확인 | **완료** |
-| **2단계** | 작업 기획서(`PLAN.md`) 작성 및 폴더 내 저장 | 기능 분해, 디렉터리 설계, 디자인 사양 정리 및 사용자 피드백 대기 | **현재 단계** |
-| **3단계** | 메인 페이지(`index.html`, `style.css`, `main.js`, `api.js`) 개발 | 실시간 시트 로드, 검색창 동작, 분야/이수구분/방식 다중 필터링, 정렬 정상 작동 | 예정 |
-| **4단계** | 상세 페이지(`detail.html`, `detail.js`) 개발 | 카드 클릭 시 파라미터 전달 확인, 상세 데이터 매핑, 외부 링크 및 문의 전화 연결 | 예정 |
-| **5단계** | 구글 시트 실시간 동기화 테스트 | 시트 임의 항목 변경 후 브라우저 새로고침 시 데이터가 화면에 즉각 반영되는지 확인 | 예정 |
-| **6단계** | GitHub Public 저장소 생성 및 코드 업로드, Pages 배포 | 저장소 푸시, Settings > Pages 설정, GitHub Actions 정상 완료 확인 | 예정 |
-| **7단계** | 배포 URL 접속 테스트 및 최종 완료 보고 | 배포된 실제 URL 접속 검증, 콘솔 오류 확인, 저장소 주소 정리 및 보고 | 예정 |
+| **2단계** | 작업 기획서(`PLAN.md`) 작성 및 폴더 내 저장 | 기능 분해, 디렉터리 설계, 디자인 사양 정리 및 사용자 피드백 대기 | **완료** |
+| **3단계** | 메인 페이지(`index.html`, `style.css`, `main.js`, `api.js`) 개발 | 실시간 시트 로드, 검색창 동작, 분야/이수구분/방식 다중 필터링, 정렬 정상 작동 | **완료** |
+| **4단계** | 상세 페이지(`detail.html`, `detail.js`) 개발 | 카드 클릭 시 파라미터 전달 확인, 상세 데이터 매핑, 외부 링크 및 문의 전화 연결 | **완료** |
+| **5단계** | 구글 시트 실시간 동기화 테스트 | 시트 데이터 수정 및 타임스탬프 캐시 버스팅 기반 실시간 조회 검증 완료 | **완료** |
+| **6단계** | GitHub Public 저장소 생성 및 코드 업로드, Pages 배포 | 저장소 푸시 완료, GitHub Pages 빌드 및 배포 활성화 완료 | **완료** |
+| **7단계** | 배포 URL 접속 테스트 및 최종 완료 보고 | 실서버 HTTP 200 응답, 메인 및 상세 페이지 정상 렌더링 확인 | **완료** |
+
+---
+
+## 8. 배포 결과 및 주요 링크
+
+- **공개 배포 웹사이트 URL**: [https://kt1024kt-source.github.io/aiagntic_8week/](https://kt1024kt-source.github.io/aiagntic_8week/)
+- **상세 페이지 테스트 링크 (예: 성희롱예방)**: [https://kt1024kt-source.github.io/aiagntic_8week/detail.html?code=PNU-2026-001](https://kt1024kt-source.github.io/aiagntic_8week/detail.html?code=PNU-2026-001)
+- **상세 페이지 테스트 링크 (예: AI 마에스트로)**: [https://kt1024kt-source.github.io/aiagntic_8week/detail.html?code=PNU-2026-401](https://kt1024kt-source.github.io/aiagntic_8week/detail.html?code=PNU-2026-401)
+- **GitHub 저장소 주소**: [https://github.com/kt1024kt-source/aiagntic_8week](https://github.com/kt1024kt-source/aiagntic_8week)
+- **로컬 작업 폴더**: `C:\Antigravity\Site development\2026-10-23`
+
 
 ---
 
